@@ -16,3 +16,16 @@ class AuthPage(BasePage):
 
     def click_sign_in(self):
         self.click_element(self.select.SIGN_IN_BTN)
+
+    def click_email_tab(self):
+        self.click_element(self.select.LOGIN_TAB)
+
+    def should_be_invalid_login_alert(self):
+        self.assert_exp_act(
+            self.wait_text_appear(self.select.LOGIN_ALERT, "Такой логин не подойдет", 2),
+            "Не сработала валидация на корректность введенного значения в поле логин. Не вывелось предупредительное сообщение.")
+
+    def should_be_empty_login_alert(self):
+        self.assert_exp_act(
+            self.wait_text_appear(self.select.LOGIN_ALERT, "Логин не указан", 2),
+            "Не сработала валидация на пустые данные в поле логин. Не вывелось предупредительное сообщение.")

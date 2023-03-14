@@ -145,14 +145,16 @@ class BasePage:
         """
 
         def wait_contain_text(driver):
-            actual = self.get_element_text(selector, 0).replace(' ', '').replace('\n', '')
-            if expected == actual:
+            actual = self.get_element_text(selector, 0).replace('\n', '').strip()
+            act_normalize = actual.replace(' ', '')
+            if exp_normalize == act_normalize:
                 return AssertException(expected, expected)
             else:
                 raise AssertException(expected, actual)
 
         try:
-            expected = expected.replace(' ', '').replace('\n', '')
+            expected = expected.replace('\n', '').strip()
+            exp_normalize = expected.replace(' ', '')
             return self.elem_act_until(wait_contain_text, timeout)
         except Exception as ex:
             if isinstance(ex.args[1], AssertException):
