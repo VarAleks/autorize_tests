@@ -8,7 +8,7 @@ def pytest_addoption(parser):
     :return:
     """
     parser.addoption("--browser", action="store", default="chrome", help="Выбор браузера, на котором тестируем (chrome или firefox)")
-    parser.addoption("--browser_url", action="store", default="", help="Базовый url страницы")
+    parser.addoption("--browser_url", action="store", default="passport.yandex.ru", help="Базовый url страницы")
 
 def pytest_configure(config):
     # инициализируем параметры системы

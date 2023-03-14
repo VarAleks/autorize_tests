@@ -10,15 +10,15 @@ class TestBase:
     """
 
     @pytest.fixture
-    def browser(self):
+    def browser(self, request):
         """
         Создает браузер, автоматически закрываемый после теста.
 
         :return: фикстура, создающая браузер, автоматически закрываемый после теста
         """
-        return self.create_browser()
+        return self.create_browser(request)
 
-    def create_browser(self, browser_config=None):
+    def create_browser(self, request, browser_config=None):
         """
         Создает браузер и закрывает его после теста.
 
@@ -28,4 +28,8 @@ class TestBase:
         browser = Browser(browser_config)
         browser.open()
 
+        def browser_close():
+            browser.close()
+
+        request.addfinalizer(browser_close)
         return browser

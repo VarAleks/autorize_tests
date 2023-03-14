@@ -1,5 +1,7 @@
+from selenium.webdriver import Keys
+
+from pages import page_selectors
 from services.assert_exception import AssertException
-from pages import pase_selectors
 from selenium.common.exceptions import WebDriverException
 from selenium.webdriver.common.by import By
 
@@ -78,6 +80,23 @@ class BasePage:
         """
         return WaitService(timeout=timeout, ignored_except=Exception). \
             until(elem_func, "Ошибка при взаимодействии с элементом.", self._browser.get_driver())
+
+    def set_text(self, selector, text, timeout=ELEM_TIMEOUT):
+        """
+        Устанавливает текст в элемент.
+
+        :param selector: селектор
+        :param timeout: интервал, в течение которого будут придприниматься попытки установить текст в элемент
+        :param text: устанавливаемый текст
+        """
+
+        def set_text(driver):
+            web_element = driver.find_element(*self.get_locator(selector))
+            web_element.send_keys(Keys.CONTROL + "a" + Keys.DELETE)
+            web_element.send_keys(text)
+            return True
+
+        self.elem_act_until(set_text, timeout)
 
     def is_presence(self, selector, timeout=ELEM_TIMEOUT):
         """
@@ -166,13 +185,13 @@ class BasePage:
             else:
                 return AssertException(expected_value, ex)
 
-    def assert_page_load(self, msg="", timeout=ELEM_TIMEOUT):
+    def assert_page_load(self, selector, page_name, after_actions, timeout=ELEM_TIMEOUT):
         """
         Ожидание и проверка, что страница загрузилась.
         """
         pass
-        self.assert_presence(pase_selectors.BasePage.APP, \
-                             "Страница '{0}' не загрузилась".format(msg), timeout)
+        self.assert_presence(selector, \
+                             "Страница '{0}' не открыта после {1}".format(page_name, after_actions), timeout)
 
     def assert_exp_act(self, assert_exception, msg=""):
         """
