@@ -20,6 +20,9 @@ class AuthPage(BasePage):
     def click_email_tab(self):
         self.click_element(self.select.LOGIN_TAB)
 
+    def click_phone_tab(self):
+        self.click_element(self.select.PHONE_TAB)
+
     def should_be_invalid_login_alert(self):
         self.assert_exp_act(
             self.wait_text_appear(self.select.LOGIN_ALERT, "Такой логин не подойдет", 2),
