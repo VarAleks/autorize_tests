@@ -7,7 +7,7 @@ class TestLoginAuthorize(TestAuthorizeBase):
 
 
     def test_existing_login_authorize(self, auth_page, welcome_page, dzen_page):
-        login = "zxcvbnm-5-asdfghjklqwertyuiop"
+        login = "zxcvbnm-5.asdfghjklqwertyuiop"
         auth_page.click_email_tab()
         auth_page.fill_login_field(login)
         auth_page.click_sign_in()
