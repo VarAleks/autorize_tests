@@ -175,7 +175,7 @@ class BasePage:
         :param timeout: максимальное время ожидания
         """
 
-        def wait_contain_text(driver):
+        def wait_text_appear(driver):
             actual = self.get_element_text(selector, 0).replace('\n', '').strip()
             act_normalize = actual.replace(' ', '')
             if exp_normalize == act_normalize:
@@ -186,6 +186,31 @@ class BasePage:
         try:
             expected = expected.replace('\n', '').strip()
             exp_normalize = expected.replace(' ', '')
+            return self.elem_act_until(wait_text_appear, timeout)
+        except Exception as ex:
+            if isinstance(ex.args[1], AssertException):
+                return ex.args[1]
+            else:
+                return AssertException(expected, ex)
+
+    def wait_contain_text(self, selector, expected, timeout=ELEM_TIMEOUT):
+        """
+        Ожидание, пока текстовое содержимое элемента не будет содержать ожидаемый текст.
+
+        :param selector: селектор
+        :param expected: ожидаемый текст
+        :param timeout: максимальное время ожидания
+        """
+
+        def wait_contain_text(driver):
+            actual = self.get_element_text(selector, 0).strip()
+            if expected in actual:
+                return AssertException(expected, expected)
+            else:
+                raise AssertException(expected, actual)
+
+        try:
+            expected = expected.strip()
             return self.elem_act_until(wait_contain_text, timeout)
         except Exception as ex:
             if isinstance(ex.args[1], AssertException):

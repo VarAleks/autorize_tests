@@ -1,6 +1,7 @@
 import pytest as pytest
 
 from pages.auth_page import AuthPage
+from pages.dzen_page import DzenPage
 from pages.reg_page import RegPage
 
 from pages.welcome_page import WelcomePage
@@ -20,3 +21,7 @@ class TestAuthorizeBase(TestBase):
     @pytest.fixture
     def reg_page(self, browser):
         return RegPage(browser)
+
+    @pytest.fixture
+    def dzen_page(self, browser):
+        return DzenPage(browser)

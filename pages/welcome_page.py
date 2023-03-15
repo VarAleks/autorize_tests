@@ -12,6 +12,9 @@ class WelcomePage(AuthPage):
         self.url = self.url + "/welcome"
         self.select = page_selectors.WelcomePage
 
+    def fill_password_field(self, paswrd):
+        self.set_text(self.select.INPUT_PASSWORD, paswrd)
+
     def should_be_password_page(self, login):
         self.assert_page_load(self.select.WELCOME_PAGE_ATTR, "Ввода пароля",
                               "попытки входа по корректному логину: '{0}'".format(login), 3)

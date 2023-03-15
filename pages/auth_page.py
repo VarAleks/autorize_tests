@@ -1,3 +1,5 @@
+import urllib
+from flask import Flask
 from pages import page_selectors
 from pages.base_page import BasePage
 
@@ -10,6 +12,10 @@ class AuthPage(BasePage):
         super().__init__(browser)
         self.url = self.url + "/auth"
         self.select = page_selectors.AuthPage
+
+    def open(self):
+        self._browser.get_driver()
+        return super().open_url("https://" + self.url + "/add?origin=dzen&retpath=https://dzen.ru/")
 
     def fill_login_field(self, text):
         self.set_text(self.select.LOGIN_FIELD, text)
@@ -37,7 +43,8 @@ class AuthPage(BasePage):
 
     def should_be_empty_phone_alert(self):
         self.assert_exp_act(
-            self.wait_text_appear(self.select.PHONE_ALERT, "Паспорт не смог обработать запрос. Попробуйте позднее или обновите страницу.", 2),
+            self.wait_text_appear(self.select.PHONE_ALERT,
+                                  "Паспорт не смог обработать запрос. Попробуйте позднее или обновите страницу.", 2),
             "Не сработала валидация на пустое поле номера телефона. Не вывелось предупредительное сообщение.")
 
     def should_be_invalid_phone_alert(self):
