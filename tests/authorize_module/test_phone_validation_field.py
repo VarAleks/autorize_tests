@@ -39,7 +39,7 @@ class TestPhoneValidationField(TestAuthorizeBase):
         auth_page.click_phone_tab()
         auth_page.clear_phone_field()
         auth_page.click_sign_in()
-        auth_page.should_be_empty_phone_alert()
+        auth_page.should_be_invalid_phone_alert()
 
     def test_short_value_in_phone_field(self, auth_page):
         auth_page.click_phone_tab()

@@ -44,21 +44,15 @@ class AuthPage(BasePage):
     def should_be_only_chars_in_phone_field(self, expected_chars, msg):
         self.assert_exp_act(self.wait_input_value(self.select.PHONE_FIELD, expected_chars, 2), msg)
 
-    def should_be_empty_phone_alert(self):
-        self.assert_exp_act(
-            self.wait_text_appear(self.select.PHONE_ALERT,
-                                  "Паспорт не смог обработать запрос. Попробуйте позднее или обновите страницу.", 2),
-            "Не сработала валидация на пустое поле номера телефона. Не вывелось предупредительное сообщение.")
-
     def should_be_invalid_phone_alert(self):
         self.assert_exp_act(
             self.wait_text_appear(self.select.PHONE_ALERT, "Недопустимый формат номера", 2),
-            "Не сработала валидация на пустое поле номера телефона. Не вывелось предупредительное сообщение.")
+            "Не сработала валидация на поле номера телефона. Не вывелось предупредительное сообщение.")
 
     def should_be_non_existing_account_alert(self):
         self.assert_exp_act(
             self.wait_text_appear(self.select.LOGIN_ALERT, "Такого аккаунта нет", 2),
-            "Не сработала валидация при попытке войти под несуществующим аккаунтом")
+            "Не сработала валидация при попытке войти под несуществующим аккаунтом. Не вывелось предупредительное сообщение.")
 
     def should_be_invalid_login_alert(self):
         self.assert_exp_act(
