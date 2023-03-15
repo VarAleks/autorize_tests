@@ -38,6 +38,9 @@ class AuthPage(BasePage):
     def click_phone_tab(self):
         self.click_element(self.select.PHONE_TAB)
 
+    def click_restore_link(self):
+        self.click_element(self.select.RESTORE_LINK)
+
     def should_be_only_chars_in_phone_field(self, expected_chars, msg):
         self.assert_exp_act(self.wait_input_value(self.select.PHONE_FIELD, expected_chars, 2), msg)
 

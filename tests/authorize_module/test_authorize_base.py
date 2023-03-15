@@ -3,6 +3,7 @@ import pytest as pytest
 from pages.auth_page import AuthPage
 from pages.dzen_page import DzenPage
 from pages.reg_page import RegPage
+from pages.restore_page import RestorePage
 
 from pages.welcome_page import WelcomePage
 from tests.test_base import TestBase
@@ -25,3 +26,7 @@ class TestAuthorizeBase(TestBase):
     @pytest.fixture
     def dzen_page(self, browser):
         return DzenPage(browser)
+
+    @pytest.fixture
+    def restore_page(self, browser):
+        return RestorePage(browser)
