@@ -10,8 +10,7 @@ def valid_login_data():
             "zxcvbnmasdfghjklqwertyuiop1",
             "zxcvbnm.asdfghjklqwertyuiop",
             "1234567890",
-            "zxcvbnm-5-asdfghjklqwertyuiop"
-            ]
+            "zxcvbnm-5-asdfghjklqwertyuiop"]
 
 
 def invalid_login_data():
@@ -27,11 +26,11 @@ def invalid_login_data():
 class TestLoginValidationField(TestAuthorizeBase):
 
     @pytest.mark.parametrize('data', valid_login_data())
-    def test_login_field_valid_data(self, browser, auth_page, data):
+    def test_login_field_valid_data(self, auth_page, welcome_page, data):
         auth_page.click_email_tab()
         auth_page.fill_login_field(data)
         auth_page.click_sign_in()
-        WelcomePage(browser).should_be_password_page(data)
+        welcome_page.should_be_password_page(data)
 
     @pytest.mark.parametrize('data', invalid_login_data())
     def test_login_field_invalid_data(self, auth_page, data):
