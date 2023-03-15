@@ -14,6 +14,15 @@ class AuthPage(BasePage):
     def fill_login_field(self, text):
         self.set_text(self.select.LOGIN_FIELD, text)
 
+    def fill_phone_field(self, number):
+        self.set_text(self.select.PHONE_FIELD, number)
+
+    def send_char_to_phone_filed(self, char):
+        self.send_text(self.select.PHONE_FIELD, char)
+
+    def clear_phone_field(self):
+        self.clear_input(self.select.PHONE_FIELD)
+
     def click_sign_in(self):
         self.click_element(self.select.SIGN_IN_BTN)
 
@@ -22,6 +31,9 @@ class AuthPage(BasePage):
 
     def click_phone_tab(self):
         self.click_element(self.select.PHONE_TAB)
+
+    def should_be_only_chars_in_phone_field(self, expected_chars, msg):
+        self.assert_exp_act(self.wait_input_value(self.select.PHONE_FIELD, expected_chars, 2), msg)
 
     def should_be_invalid_login_alert(self):
         self.assert_exp_act(

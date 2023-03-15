@@ -98,6 +98,37 @@ class BasePage:
 
         self.elem_act_until(set_text, timeout)
 
+    def send_text(self, selector, text, timeout=ELEM_TIMEOUT):
+        """
+        Устанавливает текст в элемент.
+
+        :param selector: селектор
+        :param timeout: интервал, в течение которого будут придприниматься попытки установить текст в элемент
+        :param text: устанавливаемый текст
+        """
+
+        def send_text(driver):
+            web_element = driver.find_element(*self.get_locator(selector))
+            web_element.send_keys(text)
+            return True
+
+        self.elem_act_until(send_text, timeout)
+
+    def clear_input(self, selector, timeout=ELEM_TIMEOUT):
+        """
+        Устанавливает текст в элемент.
+
+        :param selector: селектор
+        :param timeout: интервал, в течение которого будут придприниматься попытки установить текст в элемент
+        """
+
+        def clear_input(driver):
+            web_element = driver.find_element(*self.get_locator(selector))
+            web_element.send_keys(Keys.CONTROL + "a" + Keys.DELETE)
+            return True
+
+        self.elem_act_until(clear_input, timeout)
+
     def is_presence(self, selector, timeout=ELEM_TIMEOUT):
         """
         Проверяет в течение интервала, если ли элемент на странице.
@@ -162,25 +193,24 @@ class BasePage:
             else:
                 return AssertException(expected, ex)
 
-    def wait_contain_attribute_value(self, selector, attr, expected_value, timeout=ELEM_TIMEOUT):
+    def wait_input_value(self, selector, expected_value, timeout=ELEM_TIMEOUT):
         """
-        Ожидание, пока значение атрибута attr не будет содержать в себе expected_value.
+        Ожидание, пока значение атрибута value не будет равно expected_value.
 
         :param selector: селектор
-        :param attr: атрибут
         :param expected_value: ожидаемое значение атрибута
         :param timeout: максимальное время ожидания
         """
 
-        def wait_contain_attribute(driver):
-            actual_value = self.get_attribute(selector, attr, 0)
-            if expected_value in actual_value:
+        def wait_input_value(driver):
+            actual_value = self.get_attribute(selector, 'value', 0)
+            if expected_value == actual_value:
                 return AssertException(expected_value, expected_value)
             else:
                 raise AssertException(expected_value, actual_value)
 
         try:
-            return self.elem_act_until(wait_contain_attribute, timeout)
+            return self.elem_act_until(wait_input_value, timeout)
         except Exception as ex:
             if isinstance(ex.args[1], AssertException):
                 return ex.args[1]

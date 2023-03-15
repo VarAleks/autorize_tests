@@ -12,9 +12,6 @@ class RegPage(AuthPage):
         self.url = self.url + "/reg"
         self.select = page_selectors.RegPage
 
-    def fill_phone_filed(self, number):
-        self.set_text(self.select.PHONE_FIELD, number)
-
     def should_be_sms_password_page(self, phone):
         self.assert_page_load(self.select.REG_PAGE_ATTR, "Ввода одноразового пароля СМС",
                               "попытки входа по корректному номеру телефона: '{0}'".format(phone), 3)
