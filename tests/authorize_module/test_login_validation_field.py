@@ -5,6 +5,9 @@ from tests.authorize_module.test_authorize_base import TestAuthorizeBase
 
 
 def valid_login_data():
+    """
+    :return: валидные данные для проверки поля логин
+    """
     return ["zxcvbnmasdfghjklqwertyuiop",
             "zxcvbnm-asdfghjklqwertyuiop",
             "zxcvbnmasdfghjklqwertyuiop1",
@@ -14,6 +17,9 @@ def valid_login_data():
 
 
 def invalid_login_data():
+    """
+    :return: невалидные данные для проверки поля логин
+    """
     return ["абвгдеёжзийклмнопрстуфхцчшщъыьэюя",
             """!#$%^:&*()+-*\/'"{}[]`~|№;?_=<>,""",
             "1varaxin.aleks",
@@ -24,9 +30,15 @@ def invalid_login_data():
 
 
 class TestLoginValidationField(TestAuthorizeBase):
+    """
+    Валидация поля логин
+    """
 
     @pytest.mark.parametrize('data', valid_login_data())
     def test_login_field_valid_data(self, auth_page, welcome_page, data):
+        """
+        заполнение поля логин допустимыми данными
+        """
         auth_page.click_email_tab()
         auth_page.fill_login_field(data)
         auth_page.click_sign_in()
@@ -34,6 +46,9 @@ class TestLoginValidationField(TestAuthorizeBase):
 
     @pytest.mark.parametrize('data', invalid_login_data())
     def test_login_field_invalid_data(self, auth_page, data):
+        """
+        заполнение поля логин недопустимыми данными
+        """
         auth_page.click_email_tab()
         auth_page.fill_login_field(data)
         auth_page.click_sign_in()

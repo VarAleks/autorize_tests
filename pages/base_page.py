@@ -251,6 +251,20 @@ class BasePage:
         self.assert_presence(selector, \
                              "Страница '{0}' не открыта после {1}".format(page_name, after_actions), timeout)
 
+    def assert_presence(self, selector, msg="", timeout=ELEM_TIMEOUT):
+        """
+        Ожидание и проверка присутсвия элемента на странице в течение таймаута.
+
+        :param selector: селектор
+        :param msg: сообщение, в случае отсутствия элемента на странице
+        :param timeout: максимальное время ожидания
+        :return: raise AssertionError если элемент не был найден за интервал timeout
+        """
+        try:
+            self.is_presence(selector, timeout)
+        except Exception as ex:
+            raise AssertionError("{0}\n{1}".format(msg, ex.args[0]))
+
     def assert_exp_act(self, assert_exception, msg=""):
         """
         Проверка результата ожидания на странице.

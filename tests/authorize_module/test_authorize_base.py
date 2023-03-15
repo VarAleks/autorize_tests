@@ -10,6 +10,9 @@ from tests.test_base import TestBase
 
 
 class TestAuthorizeBase(TestBase):
+    """
+    Базовый класс для тестов на авторизацию.
+    """
 
     @pytest.fixture
     def auth_page(self, browser):

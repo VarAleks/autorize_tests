@@ -1,10 +1,15 @@
 from tests.authorize_module.test_authorize_base import TestAuthorizeBase
-from tests.test_base import TestBase
 
 
 class TestLoginAuthorize(TestAuthorizeBase):
+    """
+    Авторизация ЯНДЕКСА по логину.
+    """
 
     def test_existing_login_authorize(self, auth_page, welcome_page, dzen_page):
+        """
+        авторизация по существующему логину
+        """
         login = "zxcvbnm-5.asdfghjklqwertyuiop"
         auth_page.click_email_tab()
         auth_page.fill_login_field(login)
@@ -15,6 +20,9 @@ class TestLoginAuthorize(TestAuthorizeBase):
         dzen_page.should_be_profile_authorize(login)
 
     def test_non_existing_login_authorize(self, auth_page):
+        """
+        авторизация по несуществующему логину
+        """
         login = "zxcvbnm-5-asdfghjklqwtyuiop"
         auth_page.click_email_tab()
         auth_page.fill_login_field(login)
