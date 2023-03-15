@@ -1,6 +1,8 @@
 import os
 
 from selenium import webdriver
+from webdriver_manager.chrome import ChromeDriverManager
+
 from services.config_service import ConfigService
 
 
@@ -28,7 +30,7 @@ class Browser:
         :param browser_conf: конфигурация браузера (класс browser.BrowserConfig)
         """
 
-        self.driver = webdriver.Chrome(executable_path=os.getcwd() + '/binary/chromedriver')
+        self.driver = webdriver.Chrome(ChromeDriverManager().install())
         self.driver.maximize_window()
 
     def refresh_page(self):
