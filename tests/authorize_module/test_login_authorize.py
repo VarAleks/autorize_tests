@@ -19,4 +19,4 @@ class TestLoginAuthorize(TestAuthorizeBase):
         auth_page.click_email_tab()
         auth_page.fill_login_field(login)
         auth_page.click_sign_in()
-        auth_page.should_be_non_existing_login_alert()
+        auth_page.should_be_non_existing_account_alert()

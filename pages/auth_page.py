@@ -52,7 +52,7 @@ class AuthPage(BasePage):
             self.wait_text_appear(self.select.PHONE_ALERT, "Недопустимый формат номера", 2),
             "Не сработала валидация на пустое поле номера телефона. Не вывелось предупредительное сообщение.")
 
-    def should_be_non_existing_login_alert(self):
+    def should_be_non_existing_account_alert(self):
         self.assert_exp_act(
             self.wait_text_appear(self.select.LOGIN_ALERT, "Такого аккаунта нет", 2),
             "Не сработала валидация при попытке войти под несуществующим аккаунтом")
