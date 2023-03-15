@@ -1,6 +1,5 @@
 from selenium.webdriver import Keys
 
-from pages import page_selectors
 from services.assert_exception import AssertException
 from selenium.common.exceptions import WebDriverException
 from selenium.webdriver.common.by import By
@@ -100,7 +99,7 @@ class BasePage:
 
     def send_text(self, selector, text, timeout=ELEM_TIMEOUT):
         """
-        Устанавливает текст в элемент.
+        Отправляет текст в элемент, не очищая его.
 
         :param selector: селектор
         :param timeout: интервал, в течение которого будут придприниматься попытки установить текст в элемент
@@ -116,7 +115,7 @@ class BasePage:
 
     def clear_input(self, selector, timeout=ELEM_TIMEOUT):
         """
-        Устанавливает текст в элемент.
+        Очищает поле input.
 
         :param selector: селектор
         :param timeout: интервал, в течение которого будут придприниматься попытки установить текст в элемент
@@ -203,14 +202,16 @@ class BasePage:
         """
 
         def wait_contain_text(driver):
-            actual = self.get_element_text(selector, 0).strip()
-            if expected in actual:
+            actual = self.get_element_text(selector, 0).replace('\n', '').strip()
+            act_normalize = actual.replace(' ', '')
+            if exp_normalize in act_normalize:
                 return AssertException(expected, expected)
             else:
                 raise AssertException(expected, actual)
 
         try:
-            expected = expected.strip()
+            expected = expected.replace('\n', '').strip()
+            exp_normalize = expected.replace(' ', '')
             return self.elem_act_until(wait_contain_text, timeout)
         except Exception as ex:
             if isinstance(ex.args[1], AssertException):
@@ -258,21 +259,6 @@ class BasePage:
         :param msg: сообщение, выдаваемое в случае несовпадения ожидаемого значения и фактического
         """
         assert assert_exception.expected == assert_exception.actual, msg + assert_exception.assert_msg
-
-    #
-    def assert_presence(self, selector, msg="", timeout=ELEM_TIMEOUT):
-        """
-        Ожидание и проверка присутсвия элемента на странице в течение таймаута.
-
-        :param selector: селектор
-        :param msg: сообщение, в случае отсутствия элемента на странице
-        :param timeout: максимальное время ожидания
-        :return: raise AssertionError если элемент не был найден за интервал timeout
-        """
-        try:
-            self.is_presence(selector, timeout)
-        except Exception as ex:
-            raise AssertionError("{0}\n{1}".format(msg, ex.args[0]))
 
     def get_browser(self):
         return self._browser

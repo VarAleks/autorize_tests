@@ -1,10 +1,11 @@
-import urllib
-from flask import Flask
 from pages import page_selectors
 from pages.base_page import BasePage
 
 
 class AuthPage(BasePage):
+    """
+    Страница авторизации.
+    """
     def __init__(self, browser):
         """
         :param browser: браузер, в котором будет работать страница
@@ -42,24 +43,41 @@ class AuthPage(BasePage):
         self.click_element(self.select.RESTORE_LINK)
 
     def should_be_only_chars_in_phone_field(self, expected_chars, msg):
-        self.assert_exp_act(self.wait_input_value(self.select.PHONE_FIELD, expected_chars, 2), msg)
+        """
+        Проверка, что в поле телефон только символы, которые мы ожидаем.
+        :param expected_chars: ожидаемые символы
+        :param msg: выдаваемое сообщение в случае если есть посторонние символы
+        """
+        self.assert_exp_act(self.wait_input_value(self.select.PHONE_FIELD, expected_chars), msg)
 
     def should_be_invalid_phone_alert(self):
+        """
+        Ожидание и проверка, что сработала валидация на недопустимый формат номера.
+        """
         self.assert_exp_act(
-            self.wait_text_appear(self.select.PHONE_ALERT, "Недопустимый формат номера", 2),
+            self.wait_text_appear(self.select.PHONE_ALERT, "Недопустимый формат номера"),
             "Не сработала валидация на поле номера телефона. Не вывелось предупредительное сообщение.")
 
     def should_be_non_existing_account_alert(self):
+        """
+        Ожидание и проверка, что сработала валидация при попытке войти под несуществующим аккаунтом.
+        """
         self.assert_exp_act(
-            self.wait_text_appear(self.select.LOGIN_ALERT, "Такого аккаунта нет", 2),
+            self.wait_text_appear(self.select.LOGIN_ALERT, "Такого аккаунта нет"),
             "Не сработала валидация при попытке войти под несуществующим аккаунтом. Не вывелось предупредительное сообщение.")
 
     def should_be_invalid_login_alert(self):
+        """
+        Ожидание и проверка, что сработала валидация на недопустимый формат логина.
+        """
         self.assert_exp_act(
-            self.wait_text_appear(self.select.LOGIN_ALERT, "Такой логин не подойдет", 2),
+            self.wait_text_appear(self.select.LOGIN_ALERT, "Такой логин не подойдет"),
             "Не сработала валидация на корректность введенного значения в поле логин. Не вывелось предупредительное сообщение.")
 
     def should_be_empty_login_alert(self):
+        """
+        Ожидание и проверка, что сработала валидация на недопустимый формат емейла.
+        """
         self.assert_exp_act(
-            self.wait_text_appear(self.select.LOGIN_ALERT, "Логин не указан", 2),
+            self.wait_text_appear(self.select.LOGIN_ALERT, "Логин не указан"),
             "Не сработала валидация на пустые данные в поле логин. Не вывелось предупредительное сообщение.")

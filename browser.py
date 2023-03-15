@@ -1,6 +1,6 @@
-from selenium import webdriver
+import os
 
-from services.browser_config import BrowserConfig
+from selenium import webdriver
 from services.config_service import ConfigService
 
 
@@ -27,10 +27,8 @@ class Browser:
 
         :param browser_conf: конфигурация браузера (класс browser.BrowserConfig)
         """
-        if browser_conf.get_browser() == BrowserConfig.CHROME:
-            self.driver = webdriver.Chrome(executable_path='/binary/chromedriver')
-        elif browser_conf.get_browser() == BrowserConfig.FIREFOX:
-            self.driver = webdriver.Firefox(executable_path='/binary/geckodriver')
+
+        self.driver = webdriver.Chrome(executable_path=os.getcwd() + '/binary/chromedriver')
         self.driver.maximize_window()
 
     def refresh_page(self):

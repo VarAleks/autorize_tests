@@ -1,5 +1,4 @@
 from tests.authorize_module.test_authorize_base import TestAuthorizeBase
-from tests.test_base import TestBase
 
 
 class TestPasswordRestore(TestAuthorizeBase):
